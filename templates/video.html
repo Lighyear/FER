@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Emotion Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Real-Time Emotion Detection</h1>
+        <div id="video-container">
+            <div class="video-frame">
+                <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Video Feed">
+            </div>
+        </div>
+        <div class="button-group">
+            <button onclick="startVideo()">Start</button>
+            <button onclick="pauseVideo()">Pause</button>
+            <button onclick="closeVideo()">Close</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facial Emotion Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Facial Emotion Recognition</h1>
+        <p>
+            Welcome to the Facial Emotion Recognition (FER) Web App! This application uses a deep learning model to detect and classify emotions from facial expressions in real-time. The model is trained on a combined dataset of FER-2013 and CK+, capable of recognizing seven emotions: Angry, Disgust, Fear, Happy, Sad, Surprise, and Neutral.
+        </p>
+        <p>
+            To get started, click the button below to access the real-time emotion detection page. You can start the video feed, pause it, and close the session to save the recorded video and emotion data.
+        </p>
+        <div class="button-group">
+            <a href="{{ url_for('video') }}" class="btn">Start Emotion Detection</a>
+            <a href="{{ url_for('recordings') }}" class="btn">View Past Recordings</a>
+        </div>
+    </div>
+</body>
+</html>

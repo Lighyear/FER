@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emotion Detection Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Emotion Detection Data for Session {{ recording['session_id'] }}</h1>
+        <p>Recording started at: {{ recording['start_time'] }}</p>
+        <p>Duration: {{ recording['duration'] | round(2) }} seconds</p>
+        <div class="button-group">
+            <a href="{{ url_for('recordings') }}" class="btn">Back to Recordings</a>
+        </div>
+        {% if emotions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Emotion</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emotion in emotions %}
+                <tr>
+                    <td>{{ emotion['timestamp'] }}</td>
+                    <td>{{ emotion['emotion'] }}</td>
+                    <td>{{ emotion['confidence'] | round(2) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No emotion data recorded for this session.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
