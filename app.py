@@ -1,40 +1,23 @@
-# Streamlit for UI
-import streamlit as st
 
-# OpenCV for webcam capture and image processing
-import cv2
-
-# TensorFlow and Keras for deep learning model
+import numpy as np
+from PIL import Image
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 
-# Pillow for image handling
-from PIL import Image
-
-# NumPy for numerical operations
-import numpy as np
-
-
-# Load trained model
+# Load model and face detector
 model = load_model('fer_ck_cnn_improved_model.h5')
 emotion_map = {0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Sad', 5: 'Surprise', 6: 'Neutral'}
-
-# Load face detection model
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-st.title("Real-Time Facial Emotion Recognition")
-run = st.checkbox('Start Webcam')
+st.title("Facial Emotion Recognition (Streamlit Cloud Compatible)")
 
-FRAME_WINDOW = st.image([])
+img_data = st.camera_input("Take a picture")
 
-camera = cv2.VideoCapture(0)
-
-while run:
-    ret, frame = camera.read()
-    if not ret:
-        st.error("Failed to access the webcam.")
-        break
+if img_data is not None:
+    # Convert to OpenCV image
+    file_bytes = np.asarray(bytearray(img_data.read()), dtype=np.uint8)
+    frame = cv2.imdecode(file_bytes, 1)
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
@@ -52,9 +35,8 @@ while run:
 
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cv2.putText(frame, f"{label} ({confidence:.2f})", (x, y - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
 
+    # Convert BGR to RGB for display
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    FRAME_WINDOW.image(frame)
-
-camera.release()
+    st.image(frame, caption="Processed Image", use_column_width=True)
